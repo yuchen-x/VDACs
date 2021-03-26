@@ -1,0 +1,46 @@
+env: SBP
+
+env_args:
+  n_agent: 2
+  continuing_episode: False
+  terminate_step: 100
+  # difficulty: "7"
+  # game_version: null
+  # map_name: "3m"
+  # move_amount: 2
+  # obs_all_health: True
+  # obs_instead_of_state: False
+  obs_last_action: False
+  # obs_own_health: True
+  # obs_pathing_grid: False
+  # obs_terrain_height: False
+  # obs_timestep_number: False
+  # reward_death_value: 10
+  # reward_defeat: 0
+  # reward_negative_scale: 0.5
+  # reward_only_positive: True
+  # reward_scale: True
+  # reward_scale_rate: 20
+  # reward_sparse: False
+  # reward_win: 200
+  # replay_dir: ""
+  # replay_prefix: ""
+  state_last_action: False
+  random_init: False
+  terminal_reward_only: False
+  small_box_reward: 10
+  grid_dim: [4,4]
+  # state_timestep_number: False
+  # step_mul: 8
+  seed: null
+  # heuristic_ai: False
+  # heuristic_rest: False
+  # debug: False
+
+test_greedy: False
+test_nepisode: 10
+test_interval: 100
+log_interval: 100
+runner_log_interval: 100
+learner_log_interval: 100
+t_max: 20000

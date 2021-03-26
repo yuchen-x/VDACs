@@ -1,4 +1,5 @@
 import numpy as np
+import random
 import os
 import collections
 from os.path import dirname, abspath
@@ -28,7 +29,9 @@ def my_main(_run, _config, _log):
     # Setting the random seed throughout the modules
     config = config_copy(_config)
     np.random.seed(config["seed"])
+    random.seed(config["seed"])
     th.manual_seed(config["seed"])
+    th.set_num_threads(1)
     config['env_args']['seed'] = config["seed"]
 
     # run the framework
@@ -91,8 +94,9 @@ if __name__ == '__main__':
     ex.add_config(config_dict)
 
     # Save to disk by default for sacred
-    logger.info("Saving to FileStorageObserver in results/sacred.")
+    # logger.info("Saving to FileStorageObserver in results/sacred.")
     file_obs_path = os.path.join(results_path, "sacred")
-    ex.observers.append(FileStorageObserver.create(file_obs_path))
+    # ex.observers.append(FileStorageObserver.create(file_obs_path))
 
     ex.run_commandline(params)
+

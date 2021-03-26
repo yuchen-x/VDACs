@@ -21,7 +21,7 @@ class PGLearner_v2:
         self.last_target_update_step = 0
         self.critic_training_steps = 0
 
-        self.log_stats_t = -self.args.learner_log_interval - 1
+        # self.log_stats_t = -self.args.learner_log_interval - 1
 
         self.target_mac = copy.deepcopy(mac)
         self.params = list(self.mac.parameters())
@@ -69,17 +69,17 @@ class PGLearner_v2:
         self.optimiser.step()
 
 
-        if t_env - self.log_stats_t >= self.args.learner_log_interval:
-            self.logger.log_stat("critic_loss", ((td_error ** 2) * mask).sum().item() / mask.sum().item(), t_env)
-            self.logger.log_stat("td_error_abs", (td_error.abs() * mask).sum().item() / mask.sum().item(), t_env)
-            self.logger.log_stat("q_taken_mean", (targets_taken * mask).sum().item() / mask.sum().item(), t_env)
-            self.logger.log_stat("target_mean", ((targets_taken + advantages) * mask).sum().item() / mask.sum().item(), t_env)
-            self.logger.log_stat("pg_loss", - ((advantages.detach() * log_pi_taken) * mask).sum().item() / mask.sum().item(), t_env)
-            self.logger.log_stat("advantage_mean", (advantages * mask).sum().item() / mask.sum().item(), t_env)
-            self.logger.log_stat("coma_loss", coma_loss.item(), t_env)
-            self.logger.log_stat("agent_grad_norm", grad_norm, t_env)
-            # self.logger.log_stat("pi_max", (pi.max(dim=1)[0] * mask).sum().item() / mask.sum().item(), t_env)
-            self.log_stats_t = t_env
+        # if t_env - self.log_stats_t >= self.args.learner_log_interval:
+        #     self.logger.log_stat("critic_loss", ((td_error ** 2) * mask).sum().item() / mask.sum().item(), t_env)
+        #     self.logger.log_stat("td_error_abs", (td_error.abs() * mask).sum().item() / mask.sum().item(), t_env)
+        #     self.logger.log_stat("q_taken_mean", (targets_taken * mask).sum().item() / mask.sum().item(), t_env)
+        #     self.logger.log_stat("target_mean", ((targets_taken + advantages) * mask).sum().item() / mask.sum().item(), t_env)
+        #     self.logger.log_stat("pg_loss", - ((advantages.detach() * log_pi_taken) * mask).sum().item() / mask.sum().item(), t_env)
+        #     self.logger.log_stat("advantage_mean", (advantages * mask).sum().item() / mask.sum().item(), t_env)
+        #     self.logger.log_stat("coma_loss", coma_loss.item(), t_env)
+        #     self.logger.log_stat("agent_grad_norm", grad_norm, t_env)
+        #     # self.logger.log_stat("pi_max", (pi.max(dim=1)[0] * mask).sum().item() / mask.sum().item(), t_env)
+        #     self.log_stats_t = t_env
 
     def _calculate_advs(self, batch, rewards, terminated, actions, avail_actions, mask, bs, max_t):
         mac_out = []
