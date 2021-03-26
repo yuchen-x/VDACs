@@ -177,7 +177,7 @@ def run_sequential(args, logger):
     while episode <= args.t_max:
 
         # Run for a whole episode at a time
-        episode_batch = runner.run(test_mode=False)
+        episode_batch = runner.run(episode, test_mode=False)
         buffer.insert_episode_batch(episode_batch)
 
         if buffer.can_sample(args.batch_size):
@@ -203,7 +203,7 @@ def run_sequential(args, logger):
 
             # last_test_T = runner.t_env
             for _ in range(n_test_runs):
-                runner.run(test_mode=True)
+                runner.run(episode, test_mode=True)
             test_returns.append(np.mean(runner.test_returns[0:args.test_nepisode]))
             print(f"[{args.run_id}] [{episode}/{args.t_max}] Evaluate learned policies with averaged return {test_returns[-1]}", flush=True)
             runner.test_returns = []
