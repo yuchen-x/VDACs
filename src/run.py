@@ -236,10 +236,9 @@ def run_sequential(args, logger):
 
         episode += args.batch_size_run
 
-        if (time.time() - start) // 3600 >= 23:
+        if (time.time() - start) / 3600 >= 0.01:
             save_ckpt(args.run_id, episode, learner, mac, test_returns, args.save_dir)
             start = time.time()
-            break
 
         # if (runner.t_env - last_log_T) >= args.log_interval:
         #     logger.log_stat("episode", episode, runner.t_env)
@@ -272,11 +271,9 @@ def save_ckpt(run_idx, episode, learner, mac, test_returns, save_dir, max_save=2
              'random_state': random.getstate(),
              'np_random_state': np.random.get_state(),
              'torch_random_state': th.random.get_rng_state(),
-             'cen_critic_net_state_dict': learner.critic.state_dict(),
-             'cen_critic_tgt_net_state_dict': learner.target_critic.state_dict(),
-             'cen_critic_optimiser_state_dict': learner.critic_optimiser.state_dict(),
+             'cen_critic_net_state_dict': learner.mixer.state_dict(),
+             'cen_critic_optimiser_state_dict': learner.optimiser.state_dict(),
              'agent_net_state_dict': mac.agent.state_dict(),
-             'agent_net_optimiser_state_dict': learner.agent_optimiser.state_dict(),
              'learner.critic_training_steps': learner.critic_training_steps
              }, PATH)
 
@@ -289,10 +286,8 @@ def load_ckpt(run_idx, learner, mac, save_dir):
     np.random.set_state(ckpt['np_random_state'])
     th.set_rng_state(ckpt['torch_random_state'])
     mac.agent.load_state_dict(ckpt['agent_net_state_dict'])
-    learner.critic.load_state_dict(ckpt['cen_critic_net_state_dict'])
-    learner.target_critic.load_state_dict(ckpt['cen_critic_tgt_net_state_dict'])
-    learner.agent_optimiser.load_state_dict(ckpt['agent_net_optimiser_state_dict'])
-    learner.critic_optimiser.load_state_dict(ckpt['cen_critic_optimiser_state_dict'])
+    learner.mixer.load_state_dict(ckpt['cen_critic_net_state_dict'])
+    learner.optimiser.load_state_dict(ckpt['cen_critic_optimiser_state_dict'])
 
     return episode, test_returns
 
