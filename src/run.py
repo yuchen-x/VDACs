@@ -236,9 +236,10 @@ def run_sequential(args, logger):
 
         episode += args.batch_size_run
 
-        if (time.time() - start) / 3600 >= 0.01:
+        if (time.time() - start) / 3600 >= 23:
             save_ckpt(args.run_id, episode, learner, mac, test_returns, args.save_dir)
             start = time.time()
+            break
 
         # if (runner.t_env - last_log_T) >= args.log_interval:
         #     logger.log_stat("episode", episode, runner.t_env)
