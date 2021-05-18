@@ -275,7 +275,7 @@ def save_ckpt(run_idx, episode, learner, mac, test_returns, save_dir, max_save=2
              'cen_critic_net_state_dict': learner.mixer.state_dict(),
              'cen_critic_optimiser_state_dict': learner.optimiser.state_dict(),
              'agent_net_state_dict': mac.agent.state_dict(),
-             'learner.critic_training_steps': learner.critic_training_steps
+             'learner_critic_training_steps': learner.critic_training_steps
              }, PATH)
 
 def load_ckpt(run_idx, learner, mac, save_dir):
@@ -289,6 +289,7 @@ def load_ckpt(run_idx, learner, mac, save_dir):
     mac.agent.load_state_dict(ckpt['agent_net_state_dict'])
     learner.mixer.load_state_dict(ckpt['cen_critic_net_state_dict'])
     learner.optimiser.load_state_dict(ckpt['cen_critic_optimiser_state_dict'])
+    learner.critic_training_steps = ckpt['learner_critic_training_steps']
 
     return episode, test_returns
 
